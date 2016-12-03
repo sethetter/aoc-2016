@@ -42,10 +42,9 @@ move (Instruction R blocks) (facing, (x, y)) =
 parseInstruction :: String -> Instruction
 parseInstruction string =
   case take 1 string of
-    "R" -> Instruction R blocks
-    "L" -> Instruction L blocks
+    "R" -> Instruction R (read $ tail string :: Integer)
+    "L" -> Instruction L (read $ tail string :: Integer)
     _   -> Unknown
-  where blocks = read $ tail string :: Integer
 
 showStatus :: Status -> String
 showStatus (facing, (x, y)) =
