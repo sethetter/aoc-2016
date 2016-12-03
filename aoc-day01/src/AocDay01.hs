@@ -5,6 +5,7 @@ module AocDay01
   ) where 
 
 import Data.List.Split
+import Data.List (foldl')
 
 data Direction = North | South | East | West
   deriving (Show)
@@ -28,10 +29,10 @@ navigateFromStr input =
    in navigate instructions
 
 navigate :: [Instruction] -> Status
-navigate = foldr move (North, (0, 0))
+navigate = foldl' move (North, (0, 0))
 
-move :: Instruction -> Status -> Status
-move (Instruction turn blocks) (facing, (x, y)) =
+move :: Status -> Instruction -> Status
+move (facing, (x, y)) (Instruction turn blocks) =
   case turn of
     L -> case facing of
       North -> (West,  (x - blocks, y))

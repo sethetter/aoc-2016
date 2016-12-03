@@ -36,3 +36,9 @@ spec = do
       let instructions = "L5, L5, L5, L5"
           finalStatus = navigateFromStr instructions
        in showStatus finalStatus `shouldBe` "(0, 0), Facing: North\n"
+
+  describe "navigateFromStr - test input from AoC" $
+    it "handles R5, L5, R5, R3" $
+      let instructions = "R5, L5, R5, R3"
+          finalStatus = navigateFromStr instructions
+       in showStatus finalStatus `shouldBe` "(10, 2), Facing: South\n"
