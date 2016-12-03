@@ -1,11 +1,14 @@
 module AocDay01
   ( navigateFromStr
   , showStatus
+  , showHistory
   , showDistanceFromZero
-  ) where 
+  ) where
+
 
 import Data.List.Split
 import Data.List (foldl')
+
 
 data Direction = North | South | East | West
   deriving (Show)
@@ -22,30 +25,37 @@ type Coordinates = (Integer, Integer)
 
 type Status = (Direction, Coordinates)
 
-navigateFromStr :: String -> Status
+
+navigateFromStr :: String -> [Status]
 navigateFromStr input =
   let instructionStrings = splitOn ", " input
       instructions       = map parseInstruction instructionStrings
    in navigate instructions
 
-navigate :: [Instruction] -> Status
-navigate = foldl' move (North, (0, 0))
 
-move :: Status -> Instruction -> Status
-move (facing, (x, y)) (Instruction turn blocks) =
+navigate :: [Instruction] -> [Status]
+navigate = foldl' move [(North, (0, 0))]
+
+
+move :: [Status] -> Instruction -> [Status]
+move history instruction = history ++ statusesFrom (last history) instruction
+
+
+statusesFrom :: Status -> Instruction -> [Status]
+statusesFrom (facing, (x, y)) (Instruction turn blocks) =
   case turn of
     L -> case facing of
-      North -> (West,  (x - blocks, y))
-      East  -> (North, (x, y + blocks))
-      South -> (East,  (x + blocks, y))
-      West  -> (South, (x, y - blocks))
+      North -> fmap (\i -> (West,  (i, y))) [(x-1), (x-2)..(x-blocks)]
+      East  -> fmap (\i -> (North, (x, i))) [(y+1)..(y+blocks)]
+      South -> fmap (\i -> (East, (i, y))) [(x+1)..(x+blocks)]
+      West  -> fmap (\i -> (South, (x, i))) [(y-1), (y-2)..(y-blocks)]
     R -> case facing of
-      North -> (East,  (x + blocks, y))
-      East  -> (South, (x, y - blocks))
-      South -> (West,  (x - blocks, y))
-      West  -> (North, (x, y + blocks))
+      North -> fmap (\i -> (East, (i, y))) [(x+1)..(x+blocks)]
+      East  -> fmap (\i -> (South, (x, i))) [(y-1), (y-2)..(y-blocks)]
+      South -> fmap (\i -> (West,  (i, y))) [(x-1), (x-2)..(x-blocks)]
+      West  -> fmap (\i -> (North, (x, i))) [(y+1)..(y+blocks)]
 
--- Takes something like "R13" or "L191"
+
 parseInstruction :: String -> Instruction
 parseInstruction string =
   case take 1 string of
@@ -53,9 +63,15 @@ parseInstruction string =
     "L" -> Instruction L (read $ tail string :: Integer)
     _   -> Unknown
 
+
+showHistory :: [Status] -> String
+showHistory = foldl' (\str status -> str ++ showStatus status) ""
+
+
 showStatus :: Status -> String
 showStatus (facing, (x, y)) =
   "(" ++ show x ++ ", " ++ show y ++ "), Facing: " ++ show facing ++ "\n"
+
 
 showDistanceFromZero :: Status -> String
 showDistanceFromZero (_, (x, y)) =
