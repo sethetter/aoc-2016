@@ -12,17 +12,17 @@ main = hspec spec
 
 spec :: Spec
 spec =
-  describe "locationFromInput" $ do
+  describe "locationFromLine" $ do
     it "handles single lines" $ do
-      locationFromInput "U" `shouldBe` (1, 0)
-      locationFromInput "D" `shouldBe` (1, 2)
-      locationFromInput "L" `shouldBe` (0, 1)
-      locationFromInput "R" `shouldBe` (2, 1)
+      locationFromLine "U" `shouldBe` (1, 0)
+      locationFromLine "D" `shouldBe` (1, 2)
+      locationFromLine "L" `shouldBe` (0, 1)
+      locationFromLine "R" `shouldBe` (2, 1)
 
     it "ignores unknown characters" $ do
-      locationFromInput "X" `shouldBe` (1, 1)
-      locationFromInput "*" `shouldBe` (1, 1)
+      locationFromLine "X" `shouldBe` (1, 1)
+      locationFromLine "*" `shouldBe` (1, 1)
 
     it "handles multiple moves" $ do
-      locationFromInput "UL" `shouldBe` (0, 0)
-      locationFromInput "DR" `shouldBe` (2, 2)
+      locationFromLine "UL" `shouldBe` (0, 0)
+      locationFromLine "DR" `shouldBe` (2, 2)

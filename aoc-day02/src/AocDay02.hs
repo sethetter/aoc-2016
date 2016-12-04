@@ -1,5 +1,5 @@
 module AocDay02
-  ( locationFromInput
+  ( locationFromLine
   ) where
 
 
@@ -13,10 +13,8 @@ data Move
   deriving (Show, Eq)
 
 
-locationFromInput :: String -> Location
-locationFromInput input =
-  let moveSets = foldl' (\ms line -> ms ++ [parseLine line]) [] (lines input)
-   in foldl' processMoves (1, 1) moveSets
+locationFromLine :: String -> Location
+locationFromLine input = processMoves (locationFromNum 5) (parseLine input)
 
 
 parseLine :: String -> [Move]
@@ -65,3 +63,16 @@ numFromLocation location =
     (0, 2) -> 7
     (1, 2) -> 8
     (2, 2) -> 9
+
+locationFromNum :: Integer -> Location
+locationFromNum num = 
+  case num of
+    1 -> (0, 0)
+    2 -> (1, 0)
+    3 -> (2, 0)
+    4 -> (0, 1)
+    5 -> (1, 1)
+    6 -> (2, 1)
+    7 -> (0, 2)
+    8 -> (1, 2)
+    9 -> (2, 2)
