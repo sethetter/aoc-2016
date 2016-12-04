@@ -3,6 +3,8 @@ module AocDay02Spec (main, spec) where
 import Test.Hspec
 import Test.QuickCheck
 
+import Data.List.Split
+
 import AocDay02
 
 -- `main` is here so that this module can be run from GHCi on its own.  It is
@@ -36,3 +38,7 @@ spec = let start = locationFromNum 5 in do
     it "handles two lines" $ do
       codeFromLines ["DR", "LL"] `shouldBe` [9, 7]
       codeFromLines ["UL", "RRR"] `shouldBe` [1, 3]
+
+    it "handles example input from AoC" $
+      let lines = "ULL\nRRDDD\nLURDL\nUUUUD"
+       in codeFromLines (splitOn "\n" lines) `shouldBe` [1, 9, 8, 5]
