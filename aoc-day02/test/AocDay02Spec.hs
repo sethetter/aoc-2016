@@ -42,3 +42,10 @@ spec = let start = locationFromNum 5 in do
     it "handles example input from AoC" $
       let lines = "ULL\nRRDDD\nLURDL\nUUUUD"
        in codeFromLines (splitOn "\n" lines) `shouldBe` [1, 9, 8, 5]
+
+
+  describe "displayCode" $
+    it "displays the code" $
+      let lines = "ULL\nRRDDD\nLURDL\nUUUUD"
+          code = codeFromLines (splitOn "\n" lines)
+       in displayCode code `shouldBe` "1985"

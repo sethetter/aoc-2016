@@ -3,6 +3,7 @@ module AocDay02
   , codeFromLines
   , numFromLocation
   , locationFromNum
+  , displayCode
   ) where
 
 
@@ -85,3 +86,6 @@ locationFromNum num =
     7 -> (0, 2)
     8 -> (1, 2)
     9 -> (2, 2)
+
+displayCode :: [Integer] -> String
+displayCode code = foldl' (++) "" (map show code)
