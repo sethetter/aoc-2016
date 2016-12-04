@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     AocDay02
+  exposed-modules:     AocDay02Part1
+                     , AocDay02Part2
   build-depends:       base >= 4.7 && < 5
   default-language:    Haskell2010
 

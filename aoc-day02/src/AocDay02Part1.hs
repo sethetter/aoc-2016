@@ -1,9 +1,8 @@
-module AocDay02
+module AocDay02Part1
   ( locationFromLine
   , codeFromLines
   , numFromLocation
   , locationFromNum
-  , displayCode
   ) where
 
 
@@ -17,10 +16,11 @@ data Move
   deriving (Show, Eq)
 
 
-codeFromLines :: [String] -> [Integer]
+codeFromLines :: [String] -> String
 codeFromLines lines =
   let locationsList = foldl' (\locations line -> locations ++ [locationFromLine (last locations) line]) [locationFromNum 5] lines
-   in map numFromLocation (tail locationsList) -- tail to remove the starting 5
+      codeNums = map numFromLocation (tail locationsList) -- tail to remove the starting 5
+   in foldl' (++) "" (map show codeNums)
 
 
 locationFromLine :: Location -> String -> Location
@@ -86,6 +86,3 @@ locationFromNum num =
     7 -> (0, 2)
     8 -> (1, 2)
     9 -> (2, 2)
-
-displayCode :: [Integer] -> String
-displayCode code = foldl' (++) "" (map show code)

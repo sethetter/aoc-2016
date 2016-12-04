@@ -1,11 +1,11 @@
-module AocDay02Spec (main, spec) where
+module AocDay02Part1Spec (main, spec) where
 
 import Test.Hspec
 import Test.QuickCheck
 
 import Data.List.Split
 
-import AocDay02
+import AocDay02Part1
 
 -- `main` is here so that this module can be run from GHCi on its own.  It is
 -- not needed for automatic spec discovery.
@@ -32,20 +32,13 @@ spec = let start = locationFromNum 5 in do
 
   describe "codeFromLines" $ do
     it "handles single lines" $ do
-      codeFromLines ["UL"] `shouldBe` [1]
-      codeFromLines ["DR"] `shouldBe` [9]
+      codeFromLines ["UL"] `shouldBe` "1"
+      codeFromLines ["DR"] `shouldBe` "9"
 
     it "handles two lines" $ do
-      codeFromLines ["DR", "LL"] `shouldBe` [9, 7]
-      codeFromLines ["UL", "RRR"] `shouldBe` [1, 3]
+      codeFromLines ["DR", "LL"] `shouldBe` "97"
+      codeFromLines ["UL", "RRR"] `shouldBe` "13"
 
     it "handles example input from AoC" $
       let lines = "ULL\nRRDDD\nLURDL\nUUUUD"
-       in codeFromLines (splitOn "\n" lines) `shouldBe` [1, 9, 8, 5]
-
-
-  describe "displayCode" $
-    it "displays the code" $
-      let lines = "ULL\nRRDDD\nLURDL\nUUUUD"
-          code = codeFromLines (splitOn "\n" lines)
-       in displayCode code `shouldBe` "1985"
+       in codeFromLines (splitOn "\n" lines) `shouldBe` "1985"
