@@ -6,5 +6,8 @@ import Data.List.Split
 main :: IO ()
 main = do
   inputStr <- readFile "input.txt"
-  let finalStatus = last $ navigateFromStr inputStr
-   in putStr $ showStatus finalStatus ++ showDistanceFromZero finalStatus
+  let history = navigateFromStr inputStr
+      finalStatus = last history
+   in putStr $ showStatus finalStatus ++
+               showDistanceFromZero finalStatus ++
+               showFirstVisitedTwice history

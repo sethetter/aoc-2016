@@ -43,3 +43,9 @@ spec = do
           history = navigateFromStr instructions
           finalStatus = last history
        in showStatus finalStatus `shouldBe` "(10, 2), Facing: South\n"
+
+  describe "showFirstVisitedTwice" $
+    it "does what it's supposed to do" $
+      let instructions = "R8, R4, R4, R8"
+          history = navigateFromStr instructions
+       in showFirstVisitedTwice history `shouldBe` "First visited twice: (4, 0)\n"

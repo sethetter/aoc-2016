@@ -3,6 +3,7 @@ module AocDay01
   , showStatus
   , showHistory
   , showDistanceFromZero
+  , showFirstVisitedTwice
   ) where
 
 
@@ -54,6 +55,20 @@ statusesFrom (facing, (x, y)) (Instruction turn blocks) =
       East  -> fmap (\i -> (South, (x, i))) [(y-1), (y-2)..(y-blocks)]
       South -> fmap (\i -> (West,  (i, y))) [(x-1), (x-2)..(x-blocks)]
       West  -> fmap (\i -> (North, (x, i))) [(y+1)..(y+blocks)]
+
+
+showFirstVisitedTwice :: [Status] -> String
+showFirstVisitedTwice history =
+  case findFirstDupCoords (map snd history) [] of
+    Just (x, y) -> "First visited twice: (" ++ show x ++ ", " ++ show y ++ ")\n"
+    Nothing     -> "No location visited twice!\n"
+
+
+findFirstDupCoords :: [Coordinates] -> [Coordinates] -> Maybe Coordinates
+findFirstDupCoords [] _ = Nothing
+findFirstDupCoords (current:rest) history =
+  if current `elem` history then Just current
+                            else findFirstDupCoords rest (history ++ [current])
 
 
 parseInstruction :: String -> Instruction
