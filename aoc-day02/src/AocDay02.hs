@@ -1,5 +1,8 @@
 module AocDay02
   ( locationFromLine
+  , codeFromLines
+  , numFromLocation
+  , locationFromNum
   ) where
 
 
@@ -13,8 +16,14 @@ data Move
   deriving (Show, Eq)
 
 
-locationFromLine :: String -> Location
-locationFromLine input = processMoves (locationFromNum 5) (parseLine input)
+codeFromLines :: [String] -> [Integer]
+codeFromLines lines =
+  let locationsList = foldl' (\locations line -> locations ++ [locationFromLine (last locations) line]) [locationFromNum 5] lines
+   in map numFromLocation (tail locationsList) -- tail to remove the starting 5
+
+
+locationFromLine :: Location -> String -> Location
+locationFromLine start line = processMoves start (parseLine line)
 
 
 parseLine :: String -> [Move]
@@ -65,7 +74,7 @@ numFromLocation location =
     (2, 2) -> 9
 
 locationFromNum :: Integer -> Location
-locationFromNum num = 
+locationFromNum num =
   case num of
     1 -> (0, 0)
     2 -> (1, 0)
