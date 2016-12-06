@@ -12,10 +12,16 @@ main = hspec spec
 
 spec :: Spec
 spec =
-  describe "codeFromLines" $
-    it "does what it's supposed to do" $
-      let lines = [ "eedadn" , "drvtee" , "eandsr" , "raavrd" , "atevrs", "tsrnev" 
-                  , "sdttsa" , "rasrtv" , "nssdts" , "ntnada", "svetve" , "tesnvt" 
-                  , "vntsnd" , "vrdear" , "dvrsen" , "enarar"
-                  ]
-       in codeFromLines lines `shouldBe` "easter"
+  let lines = [ "eedadn" , "drvtee" , "eandsr" , "raavrd" , "atevrs", "tsrnev" 
+              , "sdttsa" , "rasrtv" , "nssdts" , "ntnada", "svetve" , "tesnvt" 
+              , "vntsnd" , "vrdear" , "dvrsen" , "enarar"
+              ]
+   in do
+
+    describe "codeFromLines" $
+      it "does what it's supposed to do" $
+         codeFromLines lines `shouldBe` "easter"
+
+    describe "codeFromLines2" $
+      it "does what it's supposed to do" $
+         codeFromLines2 lines `shouldBe` "advent"
