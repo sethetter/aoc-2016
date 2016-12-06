@@ -4,6 +4,7 @@ module AocDay04
   ( roomFromString
   , checkValidRoom
   , sectorSumOfValidRooms
+  , decryptRoomName
   -- Room attr getters
   , name
   , sector
@@ -13,13 +14,14 @@ module AocDay04
 import Data.Function
 import Data.List (foldl', sortBy)
 import Data.List.Unique as Unique
+import Data.Char
 import Text.Regex
 
 
 data Room
   = Room
     { name     :: String
-    , sector   :: Integer
+    , sector   :: Int
     , checksum :: String
     }
   | Invalid
@@ -32,7 +34,7 @@ roomFromString str =
    in case matches of
         Nothing -> Invalid
         Just m -> if length m == 3
-                     then Room { name = head m, sector = read (m !! 1) :: Integer, checksum = m !! 2 }
+                     then Room { name = head m, sector = read (m !! 1) :: Int, checksum = m !! 2 }
                      else Invalid
 
 
@@ -43,5 +45,19 @@ checkValidRoom Room { name, checksum } =
    in checksum == take 5 result
 
 
-sectorSumOfValidRooms :: [Room] -> Integer
+sectorSumOfValidRooms :: [Room] -> Int
 sectorSumOfValidRooms rooms = foldl' (+) 0 $ map sector $ filter checkValidRoom rooms
+
+
+decryptRoomName :: Room -> String
+decryptRoomName Room { name, sector } = map (rotateCharXTimes sector) name
+
+
+rotateCharXTimes :: Int -> Char -> Char
+rotateCharXTimes x char = foldl' (\acc _ -> rotateChar acc) char [1..x]
+
+rotateChar :: Char -> Char
+rotateChar ' ' = ' '
+rotateChar '-' = ' '
+rotateChar 'z' = 'a'
+rotateChar char = chr (ord char + 1)

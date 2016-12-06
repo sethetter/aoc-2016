@@ -31,3 +31,9 @@ spec = do
                                                  ] in
     it "returns True for valid room" $
       sectorSumOfValidRooms rooms `shouldBe` 369
+
+
+  describe "decryptRoomName" $ let room = roomFromString "qzmt-zixmtkozy-ivhz-343[abcde]" in
+    it "decrypts a room name" $
+      decryptRoomName room `shouldBe` "very encrypted name"
+
