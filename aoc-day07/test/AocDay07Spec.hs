@@ -41,3 +41,29 @@ spec = do
       supportsTLS "xasd[mnop]qrst[xyyx]abba" `shouldBe` False
       supportsTLS "ioxxoj[abba]zxcvbn[fads]asd" `shouldBe` False
       supportsTLS "zxcvbn[aooa]ioxxoj[sdf]sdfff" `shouldBe` False
+
+  describe "findAllAba" $
+    it "find BAB sequences" $ do
+      findAllAba [] "abcdcefg" `shouldBe` ["cdc"]
+      findAllAba [] "abadcefg" `shouldBe` ["aba"]
+      findAllAba [] "abcdefgf" `shouldBe` ["fgf"]
+      findAllAba [] "abadefgf" `shouldBe` ["aba", "fgf"]
+      findAllAba [] "abcdefgh" `shouldBe` []
+
+  describe "containsBabMatchForAba" $
+    it "finds ABA's for provided BAB's" $ do
+      containsBabMatchForAba "lolbabwat" "aba" `shouldBe` True
+      containsBabMatchForAba "lolabawat" "aba" `shouldBe` False
+      containsBabMatchForAba "olodude" "lol" `shouldBe` True
+      containsBabMatchForAba "dudeolo" "lol" `shouldBe` True
+
+  describe "supportsSLS" $ do
+    it "returns True for valid SLS" $ do
+      supportsSLS "sdfioabax[mbaboasid]qrst" `shouldBe` True
+      supportsSLS "ioxojuh[ushxoxgh]zxcvbn" `shouldBe` True
+      supportsSLS "zxcvbn[fhfgh]iohfhlj" `shouldBe` True
+      supportsSLS "zxcvbn[fhfgh]ioxfhlj[olodfh]abclolde" `shouldBe` True
+    it "returns False for invalid SLS" $ do
+      supportsSLS "xasd[mnop]qrst[xyyx]abba" `shouldBe` False
+      supportsSLS "ioxxoj[abba]zxcvbn[fads]asd" `shouldBe` False
+      supportsSLS "zxcvbn[aooa]ioxxoj[sdf]sdfff" `shouldBe` False

@@ -7,4 +7,6 @@ main :: IO ()
 main = do
   inputStr <- readFile "input.txt"
   let inputLines = init $ lines inputStr
-   in putStr $ "Num Valid: " ++ show (length $ filter supportsTLS inputLines)
+   in do
+     putStr $ "Num Valid TLS: " ++ show (length $ filter supportsTLS inputLines) ++ "\n"
+     putStr $ "Num Valid SLS: " ++ show (length $ filter supportsSLS inputLines) ++ "\n\n"
